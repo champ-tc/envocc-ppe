@@ -55,7 +55,7 @@ export default function ReportPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white p-6 rounded-xl border shadow-sm">
                     <h3 className="font-bold text-xl text-gray-800 mb-4">สรุปสต็อกคงเหลือ</h3>
-                    <div className="max-h-80 overflow-y-auto pr-2">
+                    <div className="max-h-80 overflow-y-auto pr-2 text-gray-800">
                         {mockPpeItems.sort((a, b) => b.stock - a.stock).map(i => (
                             <div key={i.id} className="flex justify-between p-2 hover:bg-gray-50 rounded">
                                 <span>{i.name}</span>
@@ -68,7 +68,7 @@ export default function ReportPage() {
                 <div className="bg-white p-6 rounded-xl border shadow-sm">
                     <h3 className="font-bold text-xl text-gray-800 mb-4">สร้างรายงานการเบิก</h3>
                     <div className="space-y-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
                             <div>
                                 <Label htmlFor="startDate">จากวันที่</Label>
                                 <Input id="startDate" type="date" defaultValue="2025-06-01" />
@@ -78,7 +78,7 @@ export default function ReportPage() {
                                 <Input id="endDate" type="date" defaultValue="2025-06-22" />
                             </div>
                         </div>
-                        <div>
+                        <div className="text-gray-800">
                             <Label htmlFor="reportType">ประเภทรายงาน</Label>
                             <Select id="reportType">
                                 <option>แยกตามผู้เบิก</option>

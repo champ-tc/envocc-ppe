@@ -59,7 +59,7 @@ export default function RequisitionPage() {
                 <p className="text-lg text-gray-600 mt-2">กรอกแบบฟอร์มเพื่อส่งคำขอเบิกอุปกรณ์คุ้มครองส่วนบุคคล</p>
             </header>
 
-            <div className="max-w-xl mx-auto bg-white p-6 rounded-xl border shadow space-y-4">
+            <div className="max-w-xl mx-auto bg-white p-6 rounded-xl border shadow space-y-4 text-gray-800">
                 <div>
                     <Label htmlFor="group">กลุ่มผู้ใช้งาน</Label>
                     <Select id="group">
