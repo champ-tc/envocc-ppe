@@ -1,35 +1,68 @@
-// app/dashboard/categories/page.tsx
-import { mockCategories, mockPpeItems } from "@/lib/data";
+"use client";
+
 import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 
+const mockCategories = [
+    { id: 1, name: "หมวกนิรภัย" },
+    { id: 2, name: "ถุงมือ" },
+    { id: 3, name: "แว่นตานิรภัย" },
+    { id: 4, name: "รองเท้านิรภัย" },
+    { id: 5, name: "เสื้อกั๊กสะท้อนแสง" },
+];
+
+const mockPpeItems = [
+    { id: 1, categoryId: 1 },
+    { id: 2, categoryId: 1 },
+    { id: 3, categoryId: 2 },
+    { id: 4, categoryId: 3 },
+    { id: 5, categoryId: 4 },
+    { id: 6, categoryId: 5 },
+    { id: 7, categoryId: 1 },
+];
+
 export default function CategoryManagementPage() {
+    const getItemCount = (id: number) =>
+        mockPpeItems.filter((i) => i.categoryId === id).length;
+
     return (
-        <div className="space-y-8">
-            <header className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">จัดการประเภท PPE</h1>
-                <button className="inline-flex items-center justify-center rounded-lg h-10 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
-                    <PlusCircle className="mr-2 h-5 w-5" /> เพิ่มประเภท
+        <div className="space-y-8 py-6">
+            <header className="flex justify-between items-center">
+                <h1 className="text-4xl font-extrabold text-gray-800">จัดการประเภท PPE</h1>
+                <button className="flex items-center rounded-lg h-11 px-5 bg-blue-600 text-white hover:bg-blue-700 shadow-md">
+                    <PlusCircle className="w-5 h-5 mr-2" /> เพิ่มประเภท
                 </button>
             </header>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border">
-                <table className="w-full text-sm">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
+
+            <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                <table className="min-w-full text-sm text-gray-700">
+                    <thead className="bg-gray-50">
                         <tr>
-                            <th className="p-4 text-left">ID</th>
-                            <th className="p-4 text-left">ชื่อประเภท</th>
-                            <th className="p-4 text-left">จำนวนรายการ</th>
-                            <th className="p-4 text-right">การกระทำ</th>
+                            {["ID", "ชื่อประเภท", "จำนวนรายการ", "การกระทำ"].map((h) => (
+                                <th key={h} className={`p-4 ${h === "การกระทำ" ? "text-right" : "text-left"} text-xs font-semibold text-gray-600 uppercase tracking-wider`}>
+                                    {h}
+                                </th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {mockCategories.map(cat => (
-                            <tr key={cat.id} className="border-t dark:border-gray-700">
-                                <td className="p-4">{cat.id}</td>
-                                <td className="p-4 font-medium">{cat.name}</td>
-                                <td className="p-4">{mockPpeItems.filter(i => i.categoryId === cat.id).length}</td>
-                                <td className="p-4 text-right">
-                                    <button className="p-2 hover:bg-gray-200 rounded-md"><Pencil size={16}/></button>
-                                    <button className="p-2 hover:bg-gray-200 rounded-md"><Trash2 size={16}/></button>
+                        {mockCategories.map(({ id, name }) => (
+                            <tr key={id} className="border-b last:border-b-0 hover:bg-gray-50">
+                                <td className="p-4 font-mono text-gray-600">{id}</td>
+                                <td className="p-4 font-medium text-gray-800">{name}</td>
+                                <td className="p-4 text-gray-600">{getItemCount(id)}</td>
+                                <td className="p-4 text-right space-x-1">
+                                    <button
+                                        className="p-2 text-gray-600 hover:bg-gray-100 hover:text-blue-600 rounded transition"
+                                        title="แก้ไข"
+                                    >
+                                        <Pencil size={18} />
+                                    </button>
+                                    <button
+                                        className="p-2 text-gray-600 hover:bg-gray-100 hover:text-red-600 rounded transition"
+                                        title="ลบ"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -39,5 +72,3 @@ export default function CategoryManagementPage() {
         </div>
     );
 }
-
-

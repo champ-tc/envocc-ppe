@@ -1,41 +1,62 @@
-"use client"
+"use client";
 
-// app/dashboard/page.tsx
-import { mockUsers, mockPpeItems, mockRequisitions } from "@/lib/data";
+import { ReactNode } from "react";
 import { Users, AlertTriangle, Inbox } from "lucide-react";
-// Import UI components like Badge, Button, etc. from your component library
-// For this example, we assume they are globally available or imported here.
+
+const mockUsers = [{ id: 1 }, { id: 2 }, { id: 3 }];
+const mockPpeItems = [
+  { id: 1, status: "มีของ" },
+  { id: 2, status: "ใกล้หมด" },
+  { id: 3, status: "ของหมด" },
+  { id: 4, status: "มีของ" },
+];
+const mockRequisitions = [
+  { id: 1, status: "รออนุมัติ" },
+  { id: 2, status: "อนุมัติแล้ว" },
+  { id: 3, status: "รออนุมัติ" },
+];
+
+const StatCard = ({
+  title, value, icon, color
+}: {
+  title: string;
+  value: number;
+  icon: ReactNode;
+  color: string;
+}) => (
+  <div className="bg-white p-6 rounded-xl border shadow flex items-center gap-4 hover:-translate-y-1 hover:shadow-lg transition">
+    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${color} bg-opacity-20`}>
+      {icon}
+    </div>
+    <div>
+      <p className="text-sm text-gray-500">{title}</p>
+      <p className="text-3xl font-extrabold text-gray-800">{value}</p>
+    </div>
+  </div>
+);
 
 export default function DashboardPage() {
-    const lowStockItems = mockPpeItems.filter(item => item.status === 'ใกล้หมด' || item.status === 'ของหมด');
-    const pendingRequisitions = mockRequisitions.filter(r => r.status === 'รออนุมัติ');
+  const lowStock = mockPpeItems.filter(i => i.status !== "มีของ").length;
+  const pending = mockRequisitions.filter(r => r.status === "รออนุมัติ").length;
 
-    const StatCard = ({ title, value, icon, colorClass }) => (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-4 transition-transform hover:scale-105">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${colorClass}`}>
-                {icon}
-            </div>
-            <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-gray-50">{value}</p>
-            </div>
-        </div>
-    );
+  const stats = [
+    { title: "ผู้ใช้งานทั้งหมด", value: mockUsers.length, icon: <Users className="w-6 h-6" />, color: "text-blue-600 bg-blue-50" },
+    { title: "รายการใกล้หมด/หมด", value: lowStock, icon: <AlertTriangle className="w-6 h-6" />, color: "text-yellow-600 bg-yellow-50" },
+    { title: "คำขอรออนุมัติ", value: pending, icon: <Inbox className="w-6 h-6" />, color: "text-red-600 bg-red-50" },
+  ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 py-6">
       <header>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50">แดชบอร์ดผู้ดูแลระบบ</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">ภาพรวมข้อมูลทั้งหมดในระบบ</p>
+        <h1 className="text-4xl font-extrabold text-gray-800">แดชบอร์ดผู้ดูแลระบบ</h1>
+        <p className="mt-2 text-lg text-gray-600">ภาพรวมข้อมูลทั้งหมดในระบบของคุณได้อย่างรวดเร็ว</p>
       </header>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <StatCard title="ผู้ใช้งานทั้งหมด" value={mockUsers.length} icon={<Users className="text-white"/>} colorClass="bg-blue-500" />
-        <StatCard title="รายการใกล้หมด/หมด" value={lowStockItems.length} icon={<AlertTriangle className="text-white"/>} colorClass="bg-yellow-500" />
-        <StatCard title="คำขอรออนุมัติ" value={pendingRequisitions.length} icon={<Inbox className="text-white"/>} colorClass="bg-red-500" />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {stats.map(s => (
+          <StatCard key={s.title} {...s} />
+        ))}
       </div>
-      {/* You can add more sections like "Recent Activity" here */}
     </div>
   );
 }
-
-
